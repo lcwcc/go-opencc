@@ -2,7 +2,7 @@ package go_opencc
 
 import (
 	"bufio"
-	"os"
+	"embed"
 	"path"
 	"strings"
 )
@@ -75,13 +75,14 @@ func (d *Dict) init() (err error) {
 }
 
 func (fo *FileOCD) readFile() (map[string][]string, int, int, error) {
-	fileName := path.Join("data/dictionary", string(*fo))
-	f, err := os.Open(fileName)
+	var config embed.FS
+	fileName := path.Join("dictionary", string(*fo))
+	rc,err := config.Open(fileName)
 	if err != nil {
 		return nil, 0, 0, err
 	}
 	cfgMap := make(map[string][]string)
-	buf := bufio.NewReader(f)
+	buf := bufio.NewReader(rc)
 	//
 	max := 0
 	min := 0

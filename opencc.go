@@ -2,15 +2,15 @@ package go_opencc
 
 import (
 	"bufio"
+	"embed"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
-	"os"
 	"path"
 	"strings"
 )
-
+var config embed.FS
 var punctuations []string = []string{
 	" ", "\n", "\r", "\t", "-", ",", ".", "?", "!", "*", "　",
 	"，", "。", "、", "；", "：", "？", "！", "…", "“", "”", "「",
@@ -26,8 +26,13 @@ type OpenCC struct {
 
 // Supported conversions: s2t, t2s, s2tw, tw2s, s2hk, hk2s, s2twp, tw2sp, t2tw, t2hk
 func NewOpenCC(conversions string) (*OpenCC, error) {
-	fileName := path.Join("data/config", conversions)
-	body, err := os.ReadFile(fileName)
+	fileName := path.Join("config", fmt.Sprintf("%s.json",conversions))
+	rc, err := config.Open(fileName)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	body,_ := io.ReadAll(rc)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
