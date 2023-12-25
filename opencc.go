@@ -10,6 +10,8 @@ import (
 	"path"
 	"strings"
 )
+
+//go:embed config
 var config embed.FS
 var punctuations []string = []string{
 	" ", "\n", "\r", "\t", "-", ",", ".", "?", "!", "*", "　",

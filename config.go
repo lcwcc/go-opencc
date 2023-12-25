@@ -11,7 +11,8 @@ const (
 	TYPE_OCD   = "ocd"
 	TYPE_GROUP = "group"
 )
-
+//go:embed dictionary
+var dict embed.FS
 var dataDir string
 
 type FileOCD string
@@ -75,9 +76,8 @@ func (d *Dict) init() (err error) {
 }
 
 func (fo *FileOCD) readFile() (map[string][]string, int, int, error) {
-	var config embed.FS
 	fileName := path.Join("dictionary", string(*fo))
-	rc,err := config.Open(fileName)
+	rc,err := dict.Open(fileName)
 	if err != nil {
 		return nil, 0, 0, err
 	}

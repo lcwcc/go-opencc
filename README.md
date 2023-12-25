@@ -15,6 +15,10 @@
 * `t2tw` Traditional Chinese (OpenCC Standard) to Taiwan Standard 繁體（OpenCC 標準）到臺灣正體
 * `t2hk` Traditional Chinese (OpenCC Standard) to Hong Kong Standard 繁體（OpenCC 標準）到香港繁體（香港小學學習字詞表標準）
 
+### xiazai1
+```shell
+go get github.com/lcwcc/go-opencc
+```
 ### 使用
 
 ```go
