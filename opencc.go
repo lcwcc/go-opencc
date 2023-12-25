@@ -31,23 +31,20 @@ func NewOpenCC(conversions string) (*OpenCC, error) {
 	fileName := path.Join("config", fmt.Sprintf("%s.json",conversions))
 	rc, err := config.Open(fileName)
 	if err != nil {
-		fmt.Println(err)
+	
 		return nil, err
 	}
 	body,_ := io.ReadAll(rc)
 	if err != nil {
-		fmt.Println(err)
 		return nil, err
 	}
 	var conf *Config
 	err = json.Unmarshal(body, &conf)
 	if err != nil {
-		fmt.Println(err)
 		return nil, err
 	}
 	err = conf.init()
 	if err != nil {
-		fmt.Println(err)
 		return nil, err
 	}
 	//
