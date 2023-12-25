@@ -19,7 +19,7 @@
 ```shell
 go get github.com/lcwcc/go-opencc
 ```
-### 使用
+### 基本使用
 
 ```go
 import "github.com/lcwcc/go-opencc"
@@ -43,4 +43,29 @@ func Test_opencc(t *testing.T){
 }
 // 输出:
 // 杜拜（阿拉伯語：دبي，英語：Dubai），是阿拉伯聯合大公國人口最多的城市，位於波斯灣東南海岸，杜拜也是組成阿聯酋七個酋長國之一——杜拜酋長國的首都。
+```
+### 将HTML代码中中文转换为繁体
+```go
+
+var regChinese = regexp.MustCompile("[\u4e00-\u9fa5]")
+
+// 简体转台湾繁体
+var s2t *go_opencc.OpenCC
+
+func init() {
+	s2t, _ = go_opencc.NewOpenCC("s2t")
+}
+
+// ConvertToTraditionalChinese 中文转繁体
+func ConvertToTraditionalChinese(text string) string {
+	// 中文汉字
+	chineseList := regChinese.FindAllString(text, -1)
+	//	将汉字转换为繁体
+	for _, v := range chineseList {
+		newV, _ := s2t.ConvertText(v)
+		text = strings.ReplaceAll(text, v, newV)
+	}
+	return text
+}
+
 ```
