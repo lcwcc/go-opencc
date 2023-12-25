@@ -18,7 +18,7 @@
 ### 使用
 
 ```go
-import "github.com/sgoby/go-opencc"
+import "github.com/lcwcc/go-opencc"
 
 ...
 
