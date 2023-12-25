@@ -47,25 +47,13 @@ func Test_opencc(t *testing.T){
 ### 将HTML代码中中文转换为繁体
 ```go
 
-var regChinese = regexp.MustCompile("[\u4e00-\u9fa5]")
-
-// 简体转台湾繁体
-var s2t *go_opencc.OpenCC
-
-func init() {
-	s2t, _ = go_opencc.NewOpenCC("s2t")
-}
-
-// ConvertToTraditionalChinese 中文转繁体
-func ConvertToTraditionalChinese(text string) string {
-	// 中文汉字
-	chineseList := regChinese.FindAllString(text, -1)
-	//	将汉字转换为繁体
-	for _, v := range chineseList {
-		newV, _ := s2t.ConvertText(v)
-		text = strings.ReplaceAll(text, v, newV)
+func main(){
+	cc,err := NewOpenCC("s2t")
+	if err != nil{
+		fmt.Println(err)
+		return
 	}
-	return text
+	nText := cc.ConvertHtmlString("xxx")
+	fmt.Println(nText)
 }
-
 ```
