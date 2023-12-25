@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"path"
+	"regexp"
 	"strings"
 )
 
@@ -21,7 +22,7 @@ var punctuations []string = []string{
 func init() {
 	flag.StringVar(&dataDir, "data", "", "config data direct.")
 }
-
+var regChinese = regexp.MustCompile("[\u4e00-\u9fa5]")
 type OpenCC struct {
 	conf *Config
 }
@@ -75,6 +76,17 @@ func (oc *OpenCC) ConvertFile(in io.Reader, out io.Writer) error {
 
 func (oc *OpenCC) ConvertText(text string) (string, error) {
 	return oc.splitText(text)
+}
+// HTML字符串转换为繁体
+func (oc *OpenCC) ConvertHtmlString(html string) (string) {
+	// 中文汉字
+	chineseList := regChinese.FindAllString(html, -1)
+	//	将汉字转换为繁体
+	for _, v := range chineseList {
+		newV, _ := oc.ConvertText(v)
+		html = strings.ReplaceAll(html, v, newV)
+	}
+	return html
 }
 
 func (oc *OpenCC) splitText(text string) (string, error) {
